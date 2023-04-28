@@ -136,3 +136,6 @@ gen
 google-services.json
 firebase_app_id_file.json
 GoogleService-Info.plist
+
+android/app/src/debug
+android/app/src/profile

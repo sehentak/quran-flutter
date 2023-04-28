@@ -21,6 +21,7 @@ Future<void> main() async {
 
     runApp(
         MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Qur\'an',
             routes: QuranRoute.routes,
             home: QuranRoute.listPage
