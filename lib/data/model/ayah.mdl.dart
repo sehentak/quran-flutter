@@ -1,5 +1,3 @@
-import 'package:quran/data/model/tafsir.mdl.dart';
-
 class AyahMdl {
   final int id;
   final int surahId;
