@@ -2,6 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:quran/internal/gen/default.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBgB017zjy0KxxUm2gWv9go8bqx9R_ds54',
-    appId: '1:644870072098:android:3061ab64941608b2ed677b',
-    messagingSenderId: '644870072098',
-    projectId: 'free-al-quran',
-    storageBucket: 'free-al-quran.appspot.com',
+    apiKey: Default.keyAndApi,
+    appId: Default.keyAndApp,
+    messagingSenderId: Default.keyAndMsg,
+    projectId: Default.keyAndPrj,
+    storageBucket: Default.keyAndStg
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBLSbd8lFsdZ0iqxS3F4EgwVftDhLiDaMc',
-    appId: '1:644870072098:ios:9063cff16e762202ed677b',
-    messagingSenderId: '644870072098',
-    projectId: 'free-al-quran',
-    storageBucket: 'free-al-quran.appspot.com',
-    iosClientId: '644870072098-b3hih1pgclm3on70e4o9m562s95a1sg0.apps.googleusercontent.com',
-    iosBundleId: 'com.sehentak.quran',
+    apiKey: Default.keyIosApi,
+    appId: Default.keyIosApp,
+    messagingSenderId: Default.keyIosMsg,
+    projectId: Default.keyIosPrj,
+    storageBucket: Default.keyIosStg,
+    iosClientId: Default.keyIosClt,
+    iosBundleId: Default.keyIosBnd,
   );
 }

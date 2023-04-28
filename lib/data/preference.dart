@@ -1,12 +1,12 @@
 import 'dart:math';
-
+import 'package:quran/internal/gen/default.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preference {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  final String _keyDefault = 'XBynzebdTa';
-  final String _keyDatabase = 'TnG5RfBo8k';
+  final String _keyDefault = Default.keyPrefDefault;
+  final String _keyDatabase = Default.keyPrefDatabase;
 
   Future<String> _getRandomKey() async {
     final SharedPreferences prefs = await _prefs;
