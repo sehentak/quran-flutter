@@ -10,7 +10,7 @@
         tools:node="remove" />
 
     <application
-        android:label="quran"
+        android:label="Al-Qur'an &amp; Terjemahan"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
