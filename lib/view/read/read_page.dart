@@ -298,7 +298,7 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
           textAlign: TextAlign.justify,
           style: TextStyle(
               color: QuranColor.black,
-              fontSize: 12
+              fontSize: 13
           )
       )
   );
@@ -356,7 +356,7 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.bold,
                                   color: QuranColor.background
                               )
                           ),
@@ -367,7 +367,7 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: FontWeight.w400,
                                   color: QuranColor.background
                               )
                           )
