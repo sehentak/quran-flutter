@@ -135,13 +135,13 @@ class _ListPageState extends State<ListPage> implements ListMethod {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                  '(${surah.location} • ${surah.ayahCount} Ayat)',
+                                  '(${surah.ayahCount} Ayat)',
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
                                   maxLines: 1,
                                   style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w200,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w300,
                                       color: QuranColor.black
                                   )
                               )
@@ -152,9 +152,9 @@ class _ListPageState extends State<ListPage> implements ListMethod {
                           surah.translation.trim(),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w200,
-                              color: QuranColor.black
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: QuranColor.accent
                           ),
                         )
                       ]

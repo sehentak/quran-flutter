@@ -1,5 +1,4 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:quran/data/model/combine.mdl.dart';
 import 'package:quran/data/model/tafsir.mdl.dart';
 import 'package:quran/data/repo/surah.repo.dart';
 import 'package:quran/view/read/read_method.dart';
