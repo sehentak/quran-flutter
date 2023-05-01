@@ -2,7 +2,7 @@ name: quran
 description: Al-Qur'an app with minimum feature
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
