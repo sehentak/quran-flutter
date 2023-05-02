@@ -7,14 +7,111 @@ import 'package:quran/internal/resource/colors.rsc.dart';
 import 'package:quran/view/read/read_method.dart';
 import 'package:quran/view/read/read_presenter.dart';
 
-class ReadPage extends StatefulWidget {
+class ReadPage extends StatelessWidget {
   const ReadPage({super.key});
 
   @override
-  State<ReadPage> createState() => _ReadPageState();
+  Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    SurahMdl surah = arguments['surah'];
+
+    String _surahName = surah.latin.trim();
+    int number = surah.id;
+    String detail = '${surah.ayahCount} Ayat • ${surah.translation.trim()}';
+
+    return Scaffold(
+        backgroundColor: QuranColor.foreground,
+        appBar: _appBar(context, number, _surahName, detail),
+        body: PageState(surah: surah)
+    );
+  }
+
+  AppBar _appBar(BuildContext context, int number, String title, String detail) => AppBar(
+      backgroundColor: QuranColor.primaryDark,
+      automaticallyImplyLeading: false,
+      centerTitle: false,
+      flexibleSpace: SafeArea(
+          child: Container(
+              padding: const EdgeInsets.only(
+                  right: 16
+              ),
+              child: Row(
+                  children: <Widget>[
+                    IconButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: QuranColor.background
+                        )
+                    ),
+                    const SizedBox(width: 2),
+                    ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                            Radius.circular(20)
+                        ),
+                        child: SizedBox.fromSize(
+                            size: const Size.fromRadius(20),
+                            child: Container(
+                              color: QuranColor.primary,
+                              child: Center(
+                                  child: Text(
+                                      number.toString(),
+                                      style: TextStyle(
+                                          color: QuranColor.background,
+                                          fontWeight: FontWeight.bold
+                                      )
+                                  )
+                              ),
+                            )
+                        )
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                              title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: QuranColor.background
+                              )
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                              detail,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: QuranColor.background
+                              )
+                          )
+                        ]
+                    )
+                  ]
+              )
+          )
+      )
+  );
 }
 
-class _ReadPageState extends State<ReadPage> implements ReadMethod {
+class PageState extends StatefulWidget {
+  const PageState({super.key, required this.surah});
+
+  final SurahMdl surah;
+
+  @override
+  State<PageState> createState() => _PageView();
+}
+
+class _PageView extends State<PageState> implements ReadMethod {
 
   late ReadPresenter _presenter;
 
@@ -120,34 +217,21 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
 
   @override
   Widget build(BuildContext context) {
-    String detail = '';
-    int number = 0;
-
     if (!_isLoaded) {
       _isLoaded = true;
-
-      final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-      SurahMdl surah = arguments['surah'];
-
-      _surahName = surah.latin.trim();
-      number = surah.id;
-      detail = '${surah.ayahCount} Ayat • ${surah.translation.trim()}';
+      _surahName = widget.surah.latin.trim();
 
       _pagingController.addPageRequestListener((pageKey) {
-        _presenter.getAyah(_pagingController, pageKey, surah.id, surah.ayahCount);
+        _presenter.getAyah(_pagingController, pageKey, widget.surah.id, widget.surah.ayahCount);
       });
     }
 
-    return Scaffold(
-        backgroundColor: QuranColor.foreground,
-        appBar: _appBar(number, _surahName, detail),
-        body: _isLoading ? Center(
-            child: CircularProgressIndicator(
-                color: QuranColor.primaryDark
-            )
-        ) : SafeArea(
-            child: _listViewPaged()
+    return _isLoading ? Center(
+        child: CircularProgressIndicator(
+            color: QuranColor.primaryDark
         )
+    ) : SafeArea(
+        child: _listViewPaged()
     );
   }
 
@@ -167,7 +251,9 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
             top: top, left: 16, right: 16
         ),
         child: Container(
-            padding: const EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.only(
+                left: 16, right: 16, top: 16
+            ),
             decoration: BoxDecoration(
                 color: QuranColor.background,
                 borderRadius: const BorderRadius.all(
@@ -195,7 +281,9 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
 
     List<Widget> widgets = [
       _ayahArabic(ayah.ayah, ayah.arabic.trim()),
-      _ayahLatin(latin)
+      _ayahLatin(latin),
+      const SizedBox(height: 12),
+      _ayahSection('Arti')
     ];
 
     String translation = ayah.translation.trim();
@@ -214,6 +302,8 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
 
       widgets.add(_ayahTranslation(translation));
       widgets.add(_ayahDivider());
+      widgets.add(_ayahSection('Catatan'));
+
       widgets.add(_ayahNote(note));
     } else {
       widgets.add(_ayahTranslation(translation));
@@ -235,6 +325,7 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
   );
 
   IconButton _ayahBtnDetail(int ayahId, int ayahNumber) => IconButton(
+      alignment: Alignment.centerLeft,
       icon: Icon(
         Icons.info_outline_rounded,
         color: QuranColor.accent,
@@ -244,144 +335,59 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
       }
   );
 
-  Container _ayahArabic(int number, String arabic) => Container(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      width: double.infinity,
-      child: Row(
-          children: <Widget>[
-            Text(
-                number.toString().trim(),
+  Row _ayahArabic(int number, String arabic) => Row(
+      children: <Widget>[
+        Text(
+            number.toString().trim(),
+            style: TextStyle(
+                color: QuranColor.primaryDark,
+                fontWeight: FontWeight.bold
+            )
+        ),
+        const SizedBox(width: 18),
+        Expanded(
+            flex: 1,
+            child: Text(
+                arabic.trim(),
+                textAlign: TextAlign.end,
                 style: TextStyle(
-                    color: QuranColor.primaryDark,
-                    fontWeight: FontWeight.bold
-                )
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-                flex: 1,
-                child: Text(
-                    arabic.trim(),
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        color: QuranColor.black,
-                        fontSize: 30,
-                        height: 1.5
-                    )
+                    color: QuranColor.black,
+                    fontSize: 30,
+                    height: 1.5
                 )
             )
-          ]
+        )
+      ]
+  );
+
+  Text _ayahLatin(String latin) => Text(
+      latin.trim(),
+      textAlign: TextAlign.start,
+      style: TextStyle(
+          color: QuranColor.primary,
+          fontSize: 13,
+          fontStyle: FontStyle.italic
       )
   );
 
-  Container _ayahLatin(String latin) => Container(
-      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-      width: double.infinity,
-      child: Text(
-          latin.trim(),
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            color: QuranColor.primary,
-            fontSize: 13,
-            fontStyle: FontStyle.italic,
-          )
+  Text _ayahTranslation(String translation) => Text(
+      translation.trim(),
+      textAlign: TextAlign.justify
+  );
+
+  Text _ayahNote(String note) => Text(
+      note.trim(),
+      textAlign: TextAlign.justify,
+      style: TextStyle(
+          color: QuranColor.black,
+          fontSize: 13
       )
   );
 
-  Container _ayahTranslation(String translation) => Container(
-      padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-      width: double.infinity,
-      child: Text(
-          translation.trim(),
-          textAlign: TextAlign.start
-      )
-  );
-
-  Container _ayahNote(String note) => Container(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      width: double.infinity,
-      child: Text(
-          note.trim(),
-          textAlign: TextAlign.justify,
-          style: TextStyle(
-              color: QuranColor.black,
-              fontSize: 13
-          )
-      )
-  );
-
-  AppBar _appBar(int number, String title, String detail) => AppBar(
-      backgroundColor: QuranColor.primaryDark,
-      // elevation: 0,
-      automaticallyImplyLeading: false,
-      centerTitle: false,
-      flexibleSpace: SafeArea(
-          child: Container(
-              padding: const EdgeInsets.only(
-                  right: 16
-              ),
-              child: Row(
-                  children: <Widget>[
-                    IconButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                            Icons.arrow_back_ios_new,
-                            color: QuranColor.background
-                        )
-                    ),
-                    const SizedBox(width: 2),
-                    ClipRRect(
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(20)
-                        ),
-                        child: SizedBox.fromSize(
-                            size: const Size.fromRadius(20),
-                            child: Container(
-                              color: QuranColor.primary,
-                              child: Center(
-                                  child: Text(
-                                      number.toString(),
-                                      style: TextStyle(
-                                          color: QuranColor.background,
-                                          fontWeight: FontWeight.bold
-                                      )
-                                  )
-                              ),
-                            )
-                        )
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                              title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: QuranColor.background
-                              )
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                              detail,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: QuranColor.background
-                              )
-                          )
-                        ]
-                    )
-                  ]
-              )
-          )
+  Text _ayahSection(String section) => Text(
+      section,
+      style: TextStyle(
+          color: QuranColor.accent
       )
   );
 
