@@ -178,12 +178,57 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
                     width: 0.1
                 )
             ),
-            child: ayah.footnotes == null ? _ayahItem(ayah) : _ayahItemWithNote(ayah)
+            child: _ayahItem(ayah)
         )
     );
   }
 
-  Column _ayahItem(AyahMdl ayah) => Column(
+  Column _ayahItem(AyahMdl ayah) {
+    String latin = ayah.latin.trim();
+    if (latin.contains('')) {
+      latin = latin.replaceAll('', ' ');
+    }
+
+    if (latin.contains('  ')) {
+      latin = latin.replaceAll('  ', ' ');
+    }
+
+    List<Widget> widgets = [
+      _ayahArabic(ayah.ayah, ayah.arabic.trim()),
+      _ayahLatin(latin)
+    ];
+
+    String translation = ayah.translation.trim();
+    if (ayah.footnotes != null) {
+      String note = ayah.footnotes.toString().trim();
+      int number = int.parse(note.split(')')[0]);
+
+      String no = _subscript(number);
+      if (note.contains('$number)')) {
+        note = note.replaceAll('$number)', '$no\u207E');
+      }
+
+      if (translation.contains('$number)')) {
+        translation = translation.replaceAll('$number)', '$no\u207E');
+      }
+
+      widgets.add(_ayahTranslation(translation));
+      widgets.add(_ayahDivider());
+      widgets.add(_ayahNote(note));
+    } else {
+      widgets.add(_ayahTranslation(translation));
+    }
+
+    widgets.add(_ayahBtnDetail(ayah.id, ayah.ayah));
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
+    );
+  }
+
+  /*Column _ayahItem(AyahMdl ayah) => Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -220,7 +265,7 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
           _ayahBtnDetail(ayah.id, ayah.ayah)
         ]
     );
-  }
+  }*/
 
   Divider _ayahDivider() => Divider(
       height: 16,
