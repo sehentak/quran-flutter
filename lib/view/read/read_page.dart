@@ -228,45 +228,6 @@ class _ReadPageState extends State<ReadPage> implements ReadMethod {
     );
   }
 
-  /*Column _ayahItem(AyahMdl ayah) => Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _ayahArabic(ayah.ayah, ayah.arabic),
-        _ayahLatin(ayah.latin),
-        _ayahTranslation(ayah.translation),
-        _ayahBtnDetail(ayah.id, ayah.ayah)
-      ]
-  );
-
-  Column _ayahItemWithNote(AyahMdl ayah) {
-    String translation = ayah.translation.trim();
-    String note = ayah.footnotes.toString().trim();
-    int number = int.parse(note.split(')')[0]);
-
-    String no = _subscript(number);
-    if (note.contains('$number)')) {
-      note = note.replaceAll('$number)', '$no\u207E');
-    }
-
-    if (translation.contains('$number)')) {
-      translation = translation.replaceAll('$number)', '$no\u207E');
-    }
-
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ayahArabic(ayah.ayah, ayah.arabic),
-          _ayahLatin(ayah.latin),
-          _ayahTranslation(translation),
-          _ayahDivider(),
-          _ayahNote(note),
-          _ayahBtnDetail(ayah.id, ayah.ayah)
-        ]
-    );
-  }*/
-
   Divider _ayahDivider() => Divider(
       height: 16,
       thickness: 0.1,
