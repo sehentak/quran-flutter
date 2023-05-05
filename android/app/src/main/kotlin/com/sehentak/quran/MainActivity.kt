@@ -17,5 +17,9 @@ class MainActivity: FlutterActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        val key = if (BuildConfig.DEBUG) "gz3qpp07cj" else "gz3smywgor"
+        val config = ClarityConfig(key)
+        Clarity.initialize(applicationContext, config)
     }
 }

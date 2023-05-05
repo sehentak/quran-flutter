@@ -1,28 +1,32 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quran/internal/resource/routes.rsc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quran/internal/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:quran/internal/resource/strings.rsc.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-    );
+    if (kReleaseMode) {
+        await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform,
+        );
 
-    await FirebaseAppCheck.instance.activate(
-        webRecaptchaSiteKey: 'recaptcha-v3-site-key',
-        androidProvider: AndroidProvider.playIntegrity
-    );
+        await FirebaseAppCheck.instance.activate(
+            webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+            androidProvider: AndroidProvider.playIntegrity
+        );
 
-    FirebaseAnalytics.instance;
+        FirebaseAnalytics.instance;
+    }
 
     runApp(
         MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Qur\'an',
+            title: QuranString.appName,
             routes: QuranRoute.routes,
             home: QuranRoute.listPage
         )

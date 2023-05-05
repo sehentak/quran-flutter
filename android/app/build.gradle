@@ -86,4 +86,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.microsoft.clarity:clarity:1.2.1-beta1'
 }
