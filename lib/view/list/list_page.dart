@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quran/data/model/surah.mdl.dart';
 import 'package:quran/internal/resource/colors.rsc.dart';
 import 'package:quran/internal/resource/routes.rsc.dart';
+import 'package:quran/internal/resource/strings.rsc.dart';
 import 'package:quran/view/list/list_presenter.dart';
 import 'package:quran/view/list/list_method.dart';
 
@@ -21,7 +22,7 @@ class ListPage extends StatelessWidget {
       backgroundColor: QuranColor.primaryDark,
       centerTitle: false,
       title: Text(
-          'Al-qur\'an & Terjemahan',
+          QuranString.appName,
           style: TextStyle(
               color: QuranColor.background
           )
@@ -143,7 +144,7 @@ class _PageView extends State<PageState> implements ListMethod {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                  '(${surah.ayahCount} Ayat)',
+                                  '(${surah.ayahCount} ${QuranString.labelAyah})',
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
                                   maxLines: 1,
@@ -186,7 +187,7 @@ class _PageView extends State<PageState> implements ListMethod {
         context,
         QuranRoute.readPath,
         arguments: {
-          'surah': surah
+          '123': surah
         }
     );
   }
