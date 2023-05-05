@@ -68,7 +68,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "KEY_CLARITY", "\"" + localProperties.getProperty('key.clarity.debug') + "\""
+        }
+
         release {
+            buildConfigField "String", "KEY_CLARITY", "\"" + localProperties.getProperty('key.clarity.release') + "\""
+
             signingConfig signingConfigs.release
             debuggable false
             jniDebuggable false
@@ -86,4 +92,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.microsoft.clarity:clarity:1.2.1-beta1'
 }

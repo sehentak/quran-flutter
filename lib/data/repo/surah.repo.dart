@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:quran/data/database/ayah.db.dart';
 import 'package:quran/data/database/surah.db.dart';
 import 'package:quran/data/database/tafsir.db.dart';
@@ -37,7 +36,6 @@ class SurahRepo {
           ));
         }
       } catch (e) {
-        log('${surah.id}: ${e.toString()}');
       }
     }
 
@@ -56,7 +54,6 @@ class SurahRepo {
     }
 
     String url = 'quran-ayah?surah=$surahId&start=$startAyah&limit=$limitAyah';
-    log('url: getAyah: $url');
     List<dynamic> list = await _getPayloadData(url);
 
     listAyah = [];
@@ -83,7 +80,6 @@ class SurahRepo {
 
         listAyah.add(model);
       } catch (e) {
-        log('${ayah.id}: ${e.toString()}');
       }
     }
 

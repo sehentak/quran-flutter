@@ -2,7 +2,7 @@ name: quran
 description: Al-Qur'an app with minimum feature
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.2+3
+version: 1.0.3+4
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -19,7 +19,7 @@ dependencies:
   firebase_app_check: ^0.1.2+2
   firebase_analytics: ^10.2.1
 
-dev_dependencies:
+#dev_dependencies:
 #  flutter_test:
 #    sdk: flutter
 #  flutter_lints: ^2.0.0
